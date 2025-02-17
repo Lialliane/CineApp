@@ -1,0 +1,98 @@
+{
+  "project_info": {
+    "project_number": "217615482467",
+    "project_id": "cine-app-cbd48",
+    "storage_bucket": "cine-app-cbd48.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:217615482467:android:d2d86f5f7eaf85f00a0256",
+        "android_client_info": {
+          "package_name": "com.Cine.App"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "217615482467-id8sqonrtqg9obiu2fahsilmh0j9pa7l.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.Cine.App",
+            "certificate_hash": "fd21afc76b0d460b8cb163ef9563875c95eb52e4"
+          }
+        },
+        {
+          "client_id": "217615482467-uigu361t353icreovvak07erktef57r0.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAh3Au4IJoktQY6PC30NdEZ1_3CLycTaq4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "217615482467-uigu361t353icreovvak07erktef57r0.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "217615482467-8mukj63ugcs1lq0tefqbhoe9hrtfhk1h.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.Cine.App"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:217615482467:android:b61da64740855f260a0256",
+        "android_client_info": {
+          "package_name": "com.example.movie_app_3"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "217615482467-mivum1qfa4gnbl7i2tvu4dauer41665m.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.movie_app_3",
+            "certificate_hash": "fd21afc76b0d460b8cb163ef9563875c95eb52e4"
+          }
+        },
+        {
+          "client_id": "217615482467-uigu361t353icreovvak07erktef57r0.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAh3Au4IJoktQY6PC30NdEZ1_3CLycTaq4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "217615482467-uigu361t353icreovvak07erktef57r0.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "217615482467-8mukj63ugcs1lq0tefqbhoe9hrtfhk1h.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.Cine.App"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
