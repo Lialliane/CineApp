@@ -1,13 +1,13 @@
 import 'package:equatable/equatable.dart';
 
-class NUser extends Equatable {
-  String userID = '';
-  String? email;
-  String name = '';
-  String phoneNo = '';
-  bool isAdmin;
+class NewUser extends Equatable {
+  final String userID;
+  final String? email;
+  final String name;
+  final String phoneNo;
+  final bool isAdmin;
 
-  NUser(this.name, this.isAdmin, this.phoneNo,
+  const NewUser(this.name, this.isAdmin, this.phoneNo,
       {required this.userID, required this.email});
 
   @override

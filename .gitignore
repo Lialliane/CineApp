@@ -1,1 +1,4 @@
 lib/Keys.dart
+.qodo
+.dart_tool/
+build/

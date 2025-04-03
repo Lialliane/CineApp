@@ -56,9 +56,11 @@ class _ChooseNoOfTciketsState extends State<ChooseNoOfTcikets> {
 
   @override
   Widget build(BuildContext context) {
-    bookingDetails.selectedPrime == 0
-        ? primeTicket = primeTicket
-        : primeTicket = bookingDetails.selectedPrime;
+    //basically check if there's already a number of tickets saved in this object
+    //and set the ui to reflect that, this is so that the state of the page is saved.
+    !(bookingDetails.selectedPrime == 0)
+        ? primeTicket = bookingDetails.selectedPrime
+        : null;
     bookingDetails.selectedStandard == 0
         ? standardTicket = standardTicket
         : standardTicket = bookingDetails.selectedStandard;
@@ -113,7 +115,7 @@ class _ChooseNoOfTciketsState extends State<ChooseNoOfTcikets> {
                   width: 22 * fem,
                   height: 22 * fem,
                   child: Image.asset(
-                    'assets/cenima-app-user/images/close-2r9.png',
+                    'assets/cenima-app-user/images/close.png',
                     fit: BoxFit.cover,
                   ),
                 ),
@@ -633,7 +635,7 @@ class _ChooseNoOfTciketsState extends State<ChooseNoOfTcikets> {
                                     borderRadius:
                                         BorderRadius.circular(11 * fem),
                                     child: Image.asset(
-                                      'assets/cenima-app-user/images/arrow-down-sign-to-navigate-i9B.png',
+                                      'assets/cenima-app-user/images/arrow-down-sign-to-navigate.png',
                                       fit: BoxFit.cover,
                                     ),
                                   ),
@@ -703,7 +705,7 @@ class _ChooseNoOfTciketsState extends State<ChooseNoOfTcikets> {
                                           borderRadius:
                                               BorderRadius.circular(11 * fem),
                                           child: Image.asset(
-                                            'assets/cenima-app-user/images/arrow-down-sign-to-navigate-i9B.png',
+                                            'assets/cenima-app-user/images/arrow-down-sign-to-navigate.png',
                                             fit: BoxFit.cover,
                                           ),
                                         ),
@@ -773,7 +775,7 @@ class _ChooseNoOfTciketsState extends State<ChooseNoOfTcikets> {
                                             borderRadius:
                                                 BorderRadius.circular(11 * fem),
                                             child: Image.asset(
-                                              'assets/cenima-app-user/images/arrow-down-sign-to-navigate-i9B.png',
+                                              'assets/cenima-app-user/images/arrow-down-sign-to-navigate.png',
                                               fit: BoxFit.cover,
                                             ),
                                           ),

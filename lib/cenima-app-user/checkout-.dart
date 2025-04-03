@@ -63,11 +63,11 @@ class _CheckOutState extends State<CheckOut> {
     double baseWidth = 393;
     double fem = MediaQuery.of(context).size.width / baseWidth;
     double ffem = fem * 0.97;
-    NUser? user = Provider.of<NUser?>(context);
+    NewUser? user = Provider.of<NewUser?>(context);
 
     return FutureBuilder(
         future: UserServices.getUser(user?.userID),
-        builder: (context, AsyncSnapshot<NUser?>? snapshot) {
+        builder: (context, AsyncSnapshot<NewUser?>? snapshot) {
           return WillPopScope(
             onWillPop: () async {
               await showCancelPopup(context, width, height)
@@ -165,7 +165,7 @@ class _CheckOutState extends State<CheckOut> {
                               width: 22 * fem,
                               height: 22 * fem,
                               child: Image.asset(
-                                'assets/cenima-app-user/images/close-2r9.png',
+                                'assets/cenima-app-user/images/close.png',
                                 fit: BoxFit.cover,
                               ),
                             ),
@@ -357,7 +357,7 @@ class _CheckOutState extends State<CheckOut> {
                                       width: 20 * fem,
                                       height: 20 * fem,
                                       child: Image.asset(
-                                        'assets/cenima-app-user/images/credit-card-1.png',
+                                        'assets/cenima-app-user/images/credit-card.png',
                                         fit: BoxFit.cover,
                                       ),
                                     ),

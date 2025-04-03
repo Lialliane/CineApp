@@ -4,7 +4,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'dart:ui';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:myapp/bloc/dateCubit.dart';
-import 'package:myapp/cenima-app-user/pick-a-seat-a.dart';
 import 'package:myapp/services/booking.dart';
 import 'package:myapp/utils.dart';
 import '../services/Movie service.dart';
@@ -111,6 +110,9 @@ class _MovieDetailsBookState extends State<MovieDetailsBook> {
     double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
     var image_url = 'https://image.tmdb.org/t/p/w500/';
+    BookingDetails bookingDetails =
+        BookingDetails(0, 0, [], [], [], [], [], []);
+    Set selectedSeatsSta = {};
 
     return Scaffold(
       extendBodyBehindAppBar: true,
@@ -383,7 +385,7 @@ class _MovieDetailsBookState extends State<MovieDetailsBook> {
                                           width: 38 * fem,
                                           height: 38 * fem,
                                           child: Image.asset(
-                                            'assets/cenima-app-user/images/calendar-qCq.png',
+                                            'assets/cenima-app-user/images/calendar.png',
                                             fit: BoxFit.cover,
                                           ),
                                         ),
@@ -470,18 +472,6 @@ class _MovieDetailsBookState extends State<MovieDetailsBook> {
                                         ),
                                       ),
                                     ]),
-                                Text(
-                                  // filters3Vf (I187:18999;187:19414;157:16836)
-                                  'Filters',
-                                  textAlign: TextAlign.center,
-                                  style: SafeGoogleFont(
-                                    'Lucida Bright',
-                                    15 * ffem,
-                                    fontWeight: FontWeight.w600,
-                                    height: 1.2575 * ffem / fem,
-                                    color: Color(0xff000000),
-                                  ),
-                                ),
                               ],
                             ),
                           )
@@ -503,12 +493,15 @@ class _MovieDetailsBookState extends State<MovieDetailsBook> {
                           itemBuilder: (context, index) => GridTile(
                             child: TextButton(
                               onPressed: () {
-                                // Navigator.push(
-                                //   context,
-                                //   MaterialPageRoute(
-                                //       builder: (context) =>
-                                //           ChooseNoOfTcikets() /*SeatSelection()*/),
-                                // );
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => ChooseNoOfTcikets(
+                                          "Movie name",
+                                          bookingDetails,
+                                          selectedSeatsSta,
+                                          selectedSeatsSta) /*SeatSelection()*/),
+                                );
                               },
                               style: TextButton.styleFrom(
                                 padding: EdgeInsets.zero,
@@ -530,6 +523,16 @@ class _MovieDetailsBookState extends State<MovieDetailsBook> {
                                           blurRadius: 0.2754526734 * fem,
                                         ),
                                       ]),
+                                  child: Text(
+                                    "10:10",
+                                    style: SafeGoogleFont(
+                                      'Lucida Bright',
+                                      15 * ffem,
+                                      fontWeight: FontWeight.w600,
+                                      height: 1.2575 * ffem / fem,
+                                      color: Colors.white,
+                                    ),
+                                  ),
                                 ),
                               ),
                             ),

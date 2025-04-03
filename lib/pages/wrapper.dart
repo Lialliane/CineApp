@@ -18,77 +18,47 @@ import '../bloc/page_state.dart';
 
 import '../cenima-app-user/admin-Home-page.dart';
 
-import '../cenima-app-user/starter.dart';
+import '../cenima-app-user/onboarding.dart';
 
 import '../services/shared_value.dart';
-
 
 // ignore: must_be_immutable
 
 class Wrapper extends StatelessWidget {
-
   Wrapper({super.key, this.isAdmin});
-
 
   bool? isAdmin;
 
-
   @override
-
   Widget build(BuildContext context) {
-
     print("checking is amdin $isAdmin");
 
-
-    NUser? user = Provider.of<NUser?>(context);
-
+    NewUser? user = Provider.of<NewUser?>(context);
 
     if (user == null) {
-
       if (prevPageEvent is! GoToStarterPage) {
-
         prevPageEvent = GoToStarterPage();
 
         BlocProvider.of<PageBloc>(context).add(prevPageEvent!);
-
       }
-
     } else {
-
-      if (prevPageEvent is! GoToHomePage &&
-
+      if (prevPageEvent is! GoToHomePage ||
           prevPageEvent is! GoToAdminHomePage) {
-
         if (isAdmin == false) {
-
           prevPageEvent = GoToHomePage();
-
         } else {
-
           prevPageEvent = GoToAdminHomePage();
-
         }
 
         BlocProvider.of<PageBloc>(context).add(prevPageEvent!);
-
       }
-
     }
 
-
     return BlocBuilder<PageBloc, PageState>(
-
         builder: (_, pageState) => (pageState is OnStarterPage)
-
-            ? const Starter()
-
+            ? const Onboarding()
             : (pageState is OnHomePage)
-
                 ? const HomePage()
-
                 : const AdminHomePage());
-
   }
-
 }
-

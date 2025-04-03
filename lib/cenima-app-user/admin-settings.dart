@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'change-password.dart';
+import 'change-password-admin.dart';
 import 'contact.dart';
 import 'invite.dart';
 
@@ -67,7 +67,8 @@ class _ASettings extends State<AdminSettings> {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => const ChangePassword()),
+                              builder: (context) =>
+                                  const ChangePasswordAdmin()),
                         );
                       },
                       child: Row(
@@ -105,7 +106,8 @@ class _ASettings extends State<AdminSettings> {
                       onPressed: () {
                         Navigator.push(
                           context,
-                          MaterialPageRoute(builder: (context) => const Invite()),
+                          MaterialPageRoute(
+                              builder: (context) => const Invite()),
                         );
                       },
                       child: Row(
@@ -143,7 +145,8 @@ class _ASettings extends State<AdminSettings> {
                       onPressed: () {
                         Navigator.push(
                           context,
-                          MaterialPageRoute(builder: (context) => const Contact()),
+                          MaterialPageRoute(
+                              builder: (context) => const Contact()),
                         );
                       },
                       child: Row(

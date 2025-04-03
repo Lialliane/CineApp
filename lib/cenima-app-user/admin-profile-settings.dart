@@ -45,7 +45,7 @@ class _ASettings extends State<AProfileSettings> {
     getUserInfo();
   }
 
-  final AuthServices _auth = AuthServices();
+  final FirebaseAuthServices _auth = FirebaseAuthServices();
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
@@ -173,7 +173,8 @@ class _ASettings extends State<AProfileSettings> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => const TheaterInformation()),
+                                builder: (context) =>
+                                    const TheaterInformation()),
                           );
                         },
                         child: Row(
@@ -248,7 +249,7 @@ class _ASettings extends State<AProfileSettings> {
                       alignment: Alignment.centerLeft,
                       child: TextButton(
                         onPressed: () {
-                          AuthServices.signOut();
+                          FirebaseAuthServices.signOut();
                           Navigator.pushReplacement(
                             context,
                             MaterialPageRoute(

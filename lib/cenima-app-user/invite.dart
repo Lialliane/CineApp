@@ -144,7 +144,7 @@ class Invite extends StatelessWidget {
                       width: 29 * fem,
                       height: 29 * fem,
                       child: Image.asset(
-                        'assets/cenima-app-user/images/phone-call-F7K.png',
+                        'assets/cenima-app-user/images/phone-call.png',
                         fit: BoxFit.cover,
                       ),
                     ),
@@ -191,7 +191,7 @@ class Invite extends StatelessWidget {
                       width: 30 * fem,
                       height: 28 * fem,
                       child: Image.asset(
-                        'assets/cenima-app-user/images/arrow-down-sign-to-navigate-HmF.png',
+                        'assets/cenima-app-user/images/arrow-down-sign-to-navigate.png',
                         fit: BoxFit.cover,
                       ),
                     ),
@@ -218,7 +218,7 @@ class Invite extends StatelessWidget {
                       width: 24.24 * fem,
                       height: 24.24 * fem,
                       child: Image.asset(
-                        'assets/cenima-app-user/images/close-bUH.png',
+                        'assets/cenima-app-user/images/close.png',
                         fit: BoxFit.cover,
                       ),
                     ),
@@ -247,7 +247,7 @@ class Invite extends StatelessWidget {
                           width: 219 * fem,
                           height: 30 * fem,
                           child: Image.asset(
-                            'assets/cenima-app-user/images/notch-ycH.png',
+                            'assets/cenima-app-user/images/notch.png',
                             width: 219 * fem,
                             height: 30 * fem,
                           ),
@@ -302,7 +302,7 @@ class Invite extends StatelessWidget {
                               width: 17 * fem,
                               height: 10.67 * fem,
                               child: Image.asset(
-                                'assets/cenima-app-user/images/ios-icon-small-mobile-signal-Pxh.png',
+                                'assets/cenima-app-user/images/ios-icon-small-mobile-signal.png',
                                 width: 17 * fem,
                                 height: 10.67 * fem,
                               ),
@@ -314,7 +314,7 @@ class Invite extends StatelessWidget {
                               width: 15.27 * fem,
                               height: 10.97 * fem,
                               child: Image.asset(
-                                'assets/cenima-app-user/images/ios-icon-small-wifi-oU9.png',
+                                'assets/cenima-app-user/images/ios-icon-small-wifi.png',
                                 width: 15.27 * fem,
                                 height: 10.97 * fem,
                               ),
@@ -326,7 +326,7 @@ class Invite extends StatelessWidget {
                               width: 24.33 * fem,
                               height: 11.33 * fem,
                               child: Image.asset(
-                                'assets/cenima-app-user/images/ios-icon-small-battery-EUM.png',
+                                'assets/cenima-app-user/images/ios-icon-small-battery.png',
                                 width: 24.33 * fem,
                                 height: 11.33 * fem,
                               ),

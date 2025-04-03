@@ -1,7 +1,6 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:myapp/cenima-app-user/upcomming.dart';
 import 'package:myapp/services/Movie%20service.dart';
 
@@ -89,11 +88,11 @@ class _HomePage extends State<HomePage> {
                               alignment: Alignment.topLeft,
                               child: CarouselSlider.builder(
                                   options: CarouselOptions(
-                                      height: height *
-                                          0.5,
+                                      height: height * 0.5,
                                       autoPlay: true,
                                       viewportFraction: 1,
-                                      onPageChanged: (index, reason) => setState(
+                                      onPageChanged: (index, reason) =>
+                                          setState(
                                             () => activeIndex = index,
                                           )),
                                   itemCount: images.length,
@@ -160,7 +159,7 @@ class _HomePage extends State<HomePage> {
         ),
       );
 
-//builder for carousel indicator
+  //builder for carousel indicator
   Widget buildIndicator() => AnimatedSmoothIndicator(
         activeIndex: activeIndex,
         count: images.length,
@@ -170,66 +169,65 @@ class _HomePage extends State<HomePage> {
         ),
       );
 
-  Widget showingListBuilder(double height, double width) =>
-      StreamBuilder<QuerySnapshot>(
-          stream: menuStream,
-          builder:
-              (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
-            if (snapshot.hasError) {
-              return const Text('Something went wrong');
-            }
+  // TODO: why is the food list in home screen?
+  // Widget showingListBuilder(double height, double width) =>
+  //     StreamBuilder<QuerySnapshot>(
+  //         stream: menuStream,
+  //         builder:
+  //             (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+  //           if (snapshot.hasError) {
+  //             return const Text('Something went wrong');
+  //           }
 
-            if (snapshot.connectionState == ConnectionState.waiting) {
-              return SpinKitFadingCircle(
-                color: mainColor,
-              );
-            }
+  //           if (snapshot.connectionState == ConnectionState.waiting) {
+  //             return SpinKitFadingCircle(
+  //               color: mainColor,
+  //             );
+  //           }
 
-            return SizedBox(
-              height: height * 0.3,
-              child: ListView(
-                scrollDirection: Axis.horizontal,
-                children: snapshot.data!.docs.map((DocumentSnapshot document) {
-                  Map<String, dynamic> data =
-                      document.data()! as Map<String, dynamic>;
-                  return Padding(
-                    padding: const EdgeInsets.all(5),
-                    child: Center(
-                      child: GestureDetector(
-                        onTap: () {},
-                        child: Column(children: [
-                          SizedBox(
-                            height: height * 0.25,
-                            width: width * 0.35,
-                            child: Image.asset(
-                              data['poster'],
-                              fit: BoxFit.cover,
-                            ),
-                          ),
-                          const Padding(padding: EdgeInsets.only(top: 5)),
-                          Text(
-                            data['title'],
-                            softWrap: true,
-                            style: GoogleFonts.lato(
-                              fontSize: 15,
-                              fontWeight: FontWeight.w700,
-                              color: const Color(0xff464646),
-                            ),
-                          ),
-                        ]),
-                      ),
-                    ),
-                  );
-                }).toList(),
-              ),
-            );
-          });
+  //           return SizedBox(
+  //             height: height * 0.3,
+  //             child: ListView(
+  //               scrollDirection: Axis.horizontal,
+  //               children: snapshot.data!.docs.map((DocumentSnapshot document) {
+  //                 Map<String, dynamic> data =
+  //                     document.data()! as Map<String, dynamic>;
+  //                 return Padding(
+  //                   padding: const EdgeInsets.all(5),
+  //                   child: Center(
+  //                     child: Column(children: [
+  //                       SizedBox(
+  //                         height: height * 0.25,
+  //                         width: width * 0.35,
+  //                         child: Image.asset(
+  //                           data['poster'],
+  //                           fit: BoxFit.cover,
+  //                         ),
+  //                       ),
+  //                       const Padding(padding: EdgeInsets.only(top: 5)),
+  //                       Text(
+  //                         data['title'],
+  //                         softWrap: true,
+  //                         style: GoogleFonts.lato(
+  //                           fontSize: 15,
+  //                           fontWeight: FontWeight.w700,
+  //                           color: const Color(0xff464646),
+  //                         ),
+  //                       ),
+  //                     ]),
+  //                   ),
+  //                 );
+  //               }).toList(),
+  //             ),
+  //           );
+  //         });
 }
 
 _printHeadingS({required String heading, required BuildContext context}) {
   MovieService ser = MovieService();
 
   ser.getShowingNow();
+
   return Padding(
     padding: const EdgeInsets.only(left: 20.0, top: 5, right: 10),
     child: Row(
@@ -244,7 +242,6 @@ _printHeadingS({required String heading, required BuildContext context}) {
         const Spacer(),
         TextButton(
           onPressed: () {
-            print('wgh');
             Navigator.push(
               context,
               MaterialPageRoute(builder: (context) => const ShowingNowList()),

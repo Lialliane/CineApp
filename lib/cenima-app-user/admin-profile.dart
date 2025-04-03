@@ -2,60 +2,6 @@ import 'package:flutter/material.dart';
 
 import '../utils.dart';
 
-// class AdminProfile extends StatefulWidget {
-//   const AdminProfile({super.key});
-
-//   @override
-//   State<AdminProfile> createState() => _AProfile();
-// }
-
-// class _AProfile extends State<AdminProfile> {
-//   @override
-//   Widget build(BuildContext context) {
-//     double baseWidth = 393;
-//     double fem = MediaQuery.of(context).size.width / baseWidth;
-//     double ffem = fem * 0.97;
-//     bool edit = false;
-//     return Scaffold(
-//       body: NestedScrollView(
-//         floatHeaderSlivers: true,
-//         headerSliverBuilder: (context, innerBoxIsScrolled) => [
-//           SliverAppBar(
-//             leading: GestureDetector(
-//               child: const Icon(
-//                 Icons.arrow_back_ios_new_rounded,
-//               ),
-//               onTap: () {
-//                 Navigator.pop(context);
-//               },
-//             ),
-//             iconTheme: const IconThemeData(
-//               color: Color(0xffdd204a),
-//             ),
-//             backgroundColor: const Color(0xffffffff),
-//             floating: true,
-//             snap: true,
-//             centerTitle: true,
-//             title: const Text(
-//               'Profile',
-//               textAlign: TextAlign.center,
-//               style: TextStyle(
-//                 fontSize: 25,
-//                 fontWeight: FontWeight.w600,
-//                 color: Color(0xff000000),
-//               ),
-//             ),
-//           ),
-//         ],
-//         body: Container(
-//           color: const Color(0xfff1f1f1),
-//           child: Stack(children: [SingleChildScrollView()]),
-//         ),
-//       ),
-//     );
-//   }
-// }
-
 class AdminProfile extends StatelessWidget {
   const AdminProfile({super.key});
 
@@ -118,7 +64,7 @@ class AdminProfile extends StatelessWidget {
                             width: 31.95 * fem,
                             height: 31.95 * fem,
                             child: Image.asset(
-                              'assets/cenima-app-user/images/phone-call-oRf.png',
+                              'assets/cenima-app-user/images/phone-call.png',
                               fit: BoxFit.cover,
                             ),
                           ),
@@ -203,7 +149,7 @@ class AdminProfile extends StatelessWidget {
                             width: 31.95 * fem,
                             height: 31.95 * fem,
                             child: Image.asset(
-                              'assets/cenima-app-user/images/phone-call-LgM.png',
+                              'assets/cenima-app-user/images/phone-call.png',
                               fit: BoxFit.cover,
                             ),
                           ),
@@ -288,7 +234,7 @@ class AdminProfile extends StatelessWidget {
                             width: 31.95 * fem,
                             height: 31.95 * fem,
                             child: Image.asset(
-                              'assets/cenima-app-user/images/phone-call-jzm.png',
+                              'assets/cenima-app-user/images/phone-call.png',
                               fit: BoxFit.cover,
                             ),
                           ),
@@ -373,7 +319,7 @@ class AdminProfile extends StatelessWidget {
                             width: 31.95 * fem,
                             height: 31.95 * fem,
                             child: Image.asset(
-                              'assets/cenima-app-user/images/phone-call-Nb7.png',
+                              'assets/cenima-app-user/images/phone-call.png',
                               fit: BoxFit.cover,
                             ),
                           ),
@@ -477,7 +423,7 @@ class AdminProfile extends StatelessWidget {
                       width: 30 * fem,
                       height: 28 * fem,
                       child: Image.asset(
-                        'assets/cenima-app-user/images/arrow-down-sign-to-navigate-byf.png',
+                        'assets/cenima-app-user/images/arrow-down-sign-to-navigate.png',
                         fit: BoxFit.cover,
                       ),
                     ),
@@ -504,7 +450,7 @@ class AdminProfile extends StatelessWidget {
                       width: 24.24 * fem,
                       height: 24.24 * fem,
                       child: Image.asset(
-                        'assets/cenima-app-user/images/close-Mj3.png',
+                        'assets/cenima-app-user/images/close.png',
                         fit: BoxFit.cover,
                       ),
                     ),
@@ -533,7 +479,7 @@ class AdminProfile extends StatelessWidget {
                           width: 219 * fem,
                           height: 30 * fem,
                           child: Image.asset(
-                            'assets/cenima-app-user/images/notch-jwB.png',
+                            'assets/cenima-app-user/images/notch.png',
                             width: 219 * fem,
                             height: 30 * fem,
                           ),
@@ -588,7 +534,7 @@ class AdminProfile extends StatelessWidget {
                               width: 17 * fem,
                               height: 10.67 * fem,
                               child: Image.asset(
-                                'assets/cenima-app-user/images/ios-icon-small-mobile-signal-m1f.png',
+                                'assets/cenima-app-user/images/ios-icon-small-mobile-signal.png',
                                 width: 17 * fem,
                                 height: 10.67 * fem,
                               ),
@@ -600,7 +546,7 @@ class AdminProfile extends StatelessWidget {
                               width: 15.27 * fem,
                               height: 10.97 * fem,
                               child: Image.asset(
-                                'assets/cenima-app-user/images/ios-icon-small-wifi-ZAm.png',
+                                'assets/cenima-app-user/images/ios-icon-small-wifi.png',
                                 width: 15.27 * fem,
                                 height: 10.97 * fem,
                               ),
@@ -612,7 +558,7 @@ class AdminProfile extends StatelessWidget {
                               width: 24.33 * fem,
                               height: 11.33 * fem,
                               child: Image.asset(
-                                'assets/cenima-app-user/images/ios-icon-small-battery-Vcq.png',
+                                'assets/cenima-app-user/images/ios-icon-small-battery.png',
                                 width: 24.33 * fem,
                                 height: 11.33 * fem,
                               ),

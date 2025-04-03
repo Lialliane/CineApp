@@ -13,59 +13,60 @@ TextStyle greyTextFont(double h) {
     color: const Color(0xff828282),
   );
 }
-TextStyle movieInfoTitle (double height) {
-return GoogleFonts.varela(
-fontSize: height*0.018,
-fontWeight: FontWeight.w600,
-color: const Color(0xff7e132b),
-);
+
+TextStyle movieInfoTitle(double height) {
+  return GoogleFonts.varela(
+    fontSize: height * 0.018,
+    fontWeight: FontWeight.w600,
+    color: const Color(0xff7e132b),
+  );
 }
 
-TextStyle redTextFont(double h) {
+TextStyle redTextFont(double height) {
   return GoogleFonts.raleway(
-    fontSize: 0.015 * h,
+    fontSize: 0.015 * height,
     fontWeight: FontWeight.w700,
     color: Colors.red,
   );
 }
 
-TextStyle buttonTextFont(double h) {
+TextStyle buttonTextFont(double height) {
   return GoogleFonts.lato(
-    fontSize: h * 0.025,
+    fontSize: height * 0.025,
     fontWeight: FontWeight.w600,
     color: const Color(0xffffffff),
   );
 }
-TextStyle movieInfo(double height){
+
+TextStyle movieInfo(double height) {
   return GoogleFonts.notoSans(
-      fontSize: height*0.017,
-      fontWeight: FontWeight.w400,
-      color: const Color(0xff000000),
+    fontSize: height * 0.017,
+    fontWeight: FontWeight.w400,
+    color: const Color(0xff000000),
   );
 }
 
-TextStyle headerFont(double h) {
+TextStyle headerFont() {
   return const TextStyle(
     fontFamily: 'Roboto',
     fontSize: 25,
     fontWeight: FontWeight.w600,
-    height: 1.2575,
+    height: 1.25,
     color: Color(0xff7e132b),
   );
 }
 
-TextStyle checkStyle(){
-return TextStyle(
-color: Color(0xff7e132b),
-fontSize: 18,
-);
+TextStyle checkStyle() {
+  return TextStyle(
+    color: Color(0xff7e132b),
+    fontSize: 18,
+  );
 }
 
-TextStyle checkStyle1(){
+TextStyle checkStyle1() {
   return GoogleFonts.notoSans(
     fontSize: 12,
     fontWeight: FontWeight.w400,
     color: Color(0xff000000),
   );
 }
-

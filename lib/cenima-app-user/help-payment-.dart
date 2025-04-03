@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import 'help-refund.dart';
-import 'incomplete-payment.dart';
+import 'help-incomplete-payment.dart';
 
 class HelpPayment extends StatefulWidget {
   const HelpPayment({super.key});
@@ -60,7 +60,8 @@ class _PaymentHelpPage extends State<HelpPayment> {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => const IncompletePayment()),
+                              builder: (context) =>
+                                  const HelpIncompletePayment()),
                         );
                       },
                       child: Container(
@@ -85,7 +86,8 @@ class _PaymentHelpPage extends State<HelpPayment> {
                       onPressed: () {
                         Navigator.push(
                           context,
-                          MaterialPageRoute(builder: (context) => const HelpRefund()),
+                          MaterialPageRoute(
+                              builder: (context) => const HelpRefund()),
                         );
                       },
                       child: Container(

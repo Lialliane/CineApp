@@ -1,9 +1,14 @@
+import 'dart:math';
+
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:myapp/cenima-app-user/admin-log-in.dart';
 import 'package:another_flushbar/flushbar.dart';
+import 'package:myapp/cenima-app-user/debouncer.dart';
+import 'package:myapp/cenima-app-user/log-in.dart';
+import '../reusable-widgets/reusable-widget.dart';
 import '../services/auth.dart';
 import '../shared/Theme.dart';
 
@@ -16,53 +21,74 @@ class SignUp extends StatefulWidget {
 
 class _SignUpPage extends State<SignUp> {
   final _signupForm = GlobalKey<FormState>();
-  TextEditingController firsNameController = TextEditingController();
-  TextEditingController lastNameController = TextEditingController();
-  TextEditingController emailController = TextEditingController();
-  TextEditingController phoneController = TextEditingController();
+
   TextEditingController passwordController = TextEditingController();
   TextEditingController retypePasswordController = TextEditingController();
+  Debouncer? debouncer;
 
-  bool isNameValid = false;
   bool isSigningUp = false;
-  bool isEmailValid = false;
-  bool isPasswordValid = false;
-  bool isPassword2Valid = false;
-  bool isPhoneValid = true;
   bool isObscured = true;
-  bool isObscuredConfirm = true;
 
-  bool isEFValid = true;
-  bool isFNFValid = true;
-  bool isLNFValid = true;
-  bool isPFValid = true;
-  bool isPF2Valid = true;
-  bool isPhFValid = true;
+  String firstName = '';
+  String lastName = '';
+  String email = '';
+  String password = '';
+  String phone = '';
 
-  String error = '';
-  String errorPassword = '';
-  String errorEmail = '';
-  String errorPhone = '';
-  String errorRetype = '';
+  final Map<String, String?> errors = {};
+  void validateField(String value, String type, {bool delay = true}) {
+    value = value.trim();
 
-  // static const IconData envelope = IconData(0xf422, fontFamily: iconFont, fontPackage: iconFontPackage);
+    //add a delay for updating errors in feild, otherwise validate instantly
+    (delay)
+        ? debouncer = Debouncer(milliseconds: 1000)
+        : debouncer = Debouncer(milliseconds: 0);
 
-  // @override
-  // void initState() {
-  //   super.initState();
-  //   firsNameController.text = widget.registrationData.name;
-  //   emailController.text = widget.registrationData.email;
-  // }
-  final TextEditingController _emailTextController = TextEditingController();
-  final TextEditingController _passwordTextController = TextEditingController();
+    debouncer!.run(() {
+      setState(() {
+        if (type == 'retypePass' &&
+            passwordController.text != retypePasswordController.text) {
+          errors[type] = 'Passwords don\'t match';
+        } else if (value.isEmpty) {
+          errors[type] = '$type cannot be empty';
+        } else if (type == 'Password' && value.length < 6) {
+          errors['Password'] = 'password must be 6 characters long';
+        } else if (type == 'Email' && !EmailValidator.validate(value)) {
+          errors['Email'] = 'Please enter a proper email';
+        } else if (type == 'Phone' &&
+            (value.length != 10 ||
+                value.characters.first != '0' ||
+                !isNumber(value))) {
+          debugPrint("this should run");
+          errors['Phone'] = 'Please enter a proper phone number';
+        } else {
+          errors[type] = null;
+        }
+      });
+    });
+  }
+
+  bool isNumber(String s) {
+    if (s.contains('.')) return false;
+    return double.tryParse(s) != null;
+  }
+
+  @override
+  void initState() {
+    super.initState();
+
+    firstName = '';
+    lastName = '';
+    email = '';
+    password = '';
+    phone = '';
+  }
 
   @override
   Widget build(BuildContext context) {
-    double width = MediaQuery.of(context).size.width;
-    double height = MediaQuery.of(context).size.height;
-    double baseWidth = 393;
-    double fem = MediaQuery.of(context).size.width / baseWidth;
-    double ffem = fem * 0.97;
+    double screenWidth = MediaQuery.of(context).size.width;
+    double screenHeight = MediaQuery.of(context).size.height;
+
     return Scaffold(
       //container for the page heading
       appBar: AppBar(
@@ -73,7 +99,7 @@ class _SignUpPage extends State<SignUp> {
         shadowColor: Colors.transparent,
         title: Text(
           'Sign Up',
-          style: headerFont(height),
+          style: headerFont(),
         ),
         actions: [
           IconButton(
@@ -91,26 +117,24 @@ class _SignUpPage extends State<SignUp> {
           children: [
             Container(
               padding: EdgeInsets.symmetric(
-                  horizontal: width * 0.1, vertical: height * 0.01),
+                  horizontal: screenWidth * 0.1, vertical: screenHeight * 0.01),
               child: Form(
                 key: _signupForm,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
+                    //first name field
                     TextFormField(
-                      controller: firsNameController,
-                      onChanged: (val) {
-                        setState(() {
-                          error = '';
-                        });
-                        Future.delayed(const Duration(milliseconds: 1000), () {
-                          setState(() {
-                            val.isEmpty
-                                ? isFNFValid = false
-                                : isFNFValid = true;
-                          });
-                        });
+                      keyboardType: TextInputType.name,
+                      onChanged: (value) {
+                        validateField(value, 'First Name');
                       },
+                      validator: (value) {
+                        validateField(value ?? '', 'First Name', delay: false);
+                        return errors['First Name'];
+                      },
+                      onSaved: (newValue) => firstName = newValue!.trim(),
+                      maxLength: 20,
                       decoration: InputDecoration(
                         border: const OutlineInputBorder(
                           borderRadius:
@@ -119,24 +143,23 @@ class _SignUpPage extends State<SignUp> {
                         prefixIcon: const Icon(Icons.person_outline),
                         hintText: 'Enter your first name',
                         labelText: 'First Name',
-                        errorText: isFNFValid ? null : "value can't be empty",
+                        errorText: errors['First Name'],
+                        counterText: "",
                       ),
                     ),
                     const Padding(padding: EdgeInsets.all(10.0)),
+                    //Last name field
                     TextFormField(
-                      controller: lastNameController,
-                      onChanged: (val) {
-                        setState(() {
-                          error = '';
-                        });
-                        Future.delayed(const Duration(milliseconds: 1000), () {
-                          setState(() {
-                            val.isEmpty
-                                ? isLNFValid = false
-                                : isLNFValid = true;
-                          });
-                        });
+                      keyboardType: TextInputType.name,
+                      onChanged: (value) {
+                        validateField(value, 'Last Name');
                       },
+                      validator: (value) {
+                        validateField(value ?? '', 'Last Name', delay: false);
+                        return errors['Last Name'];
+                      },
+                      onSaved: (newValue) => lastName = newValue!.trim(),
+                      maxLength: 20,
                       decoration: InputDecoration(
                         border: const OutlineInputBorder(
                           borderRadius:
@@ -145,26 +168,22 @@ class _SignUpPage extends State<SignUp> {
                         prefixIcon: const Icon(Icons.person_outline),
                         hintText: 'Enter your last name',
                         labelText: 'Last Name',
-                        errorText: isLNFValid ? null : "value can't be empty",
+                        errorText: errors['Last Name'],
+                        counterText: "",
                       ),
                     ),
                     const Padding(padding: EdgeInsets.all(10.0)),
+                    //email field
                     TextFormField(
-                      controller: emailController,
-                      onChanged: (val) {
-                        setState(() {
-                          isEmailValid = EmailValidator.validate(val);
-                          error = '';
-                        });
-                        Future.delayed(const Duration(milliseconds: 1000), () {
-                          setState(() {
-                            val.isEmpty ? isEFValid = false : isEFValid = true;
-                            isEmailValid
-                                ? errorEmail = ''
-                                : errorEmail = 'Please enter a proper email';
-                          });
-                        });
+                      keyboardType: TextInputType.emailAddress,
+                      onChanged: (value) {
+                        validateField(value, 'Email');
                       },
+                      validator: (value) {
+                        validateField(value ?? '', 'Email', delay: false);
+                        return errors['Email'];
+                      },
+                      onSaved: (newValue) => email = newValue!.trim(),
                       decoration: InputDecoration(
                         border: const OutlineInputBorder(
                           borderRadius:
@@ -173,32 +192,21 @@ class _SignUpPage extends State<SignUp> {
                         prefixIcon: const Icon(Icons.mail_outline),
                         hintText: 'Enter your email',
                         labelText: 'Email',
-                        errorText: isEFValid
-                            ? (errorEmail == '' ? null : errorEmail)
-                            : 'Value Can\'t Be Empty',
+                        errorText: errors['Email'],
                       ),
                     ),
                     const Padding(padding: EdgeInsets.all(10.0)),
+                    //phone field
                     TextFormField(
-                      controller: phoneController,
-                      onChanged: (val) {
-                        setState(() {
-                          isPhoneValid =
-                              val.length == 10 && val.characters.first == '0';
-                          error = '';
-                        });
-                        Future.delayed(const Duration(milliseconds: 1000), () {
-                          setState(() {
-                            val.isEmpty
-                                ? isPhFValid = false
-                                : isPhFValid = true;
-                            isPhoneValid
-                                ? errorPhone = ''
-                                : errorPhone =
-                                    'please enter a proper phone number';
-                          });
-                        });
+                      keyboardType: TextInputType.phone,
+                      onChanged: (value) {
+                        validateField(value, 'Phone');
                       },
+                      validator: (value) {
+                        validateField(value ?? '', 'Phone', delay: false);
+                        return errors['Phone'];
+                      },
+                      onSaved: (newValue) => phone = newValue!.trim(),
                       decoration: InputDecoration(
                         border: const OutlineInputBorder(
                           borderRadius:
@@ -207,31 +215,24 @@ class _SignUpPage extends State<SignUp> {
                         prefixIcon: const Icon(Icons.phone),
                         hintText: 'Enter your phone number',
                         labelText: 'Phone Number',
-                        errorText: isPhFValid
-                            ? (errorPhone == '' ? null : errorPhone)
-                            : 'Value Can\'t Be Empty',
+                        errorText: errors['Phone'],
                       ),
                     ),
                     const Padding(padding: EdgeInsets.all(10.0)),
+                    //password feild
                     TextFormField(
-                      obscureText: isObscured,
-                      controller: passwordController,
-                      onChanged: (val) {
-                        setState(() {
-                          isPasswordValid = val.length >= 6;
-                          error = '';
-                        });
-                        Future.delayed(const Duration(milliseconds: 1000), () {
-                          setState(() {
-                            val.isEmpty ? isPFValid = false : isPFValid = true;
-                            isPasswordValid
-                                ? errorPassword = ''
-                                : errorPassword =
-                                    'Password must be 6 characters long';
-                          });
-                        });
-                      },
                       keyboardType: TextInputType.visiblePassword,
+                      controller: passwordController,
+                      onChanged: (value) {
+                        validateField(value, 'Password');
+                      },
+                      validator: (value) {
+                        validateField(value ?? '', 'Password', delay: false);
+                        return errors['Password'];
+                      },
+                      onSaved: (newValue) => password = newValue!.trim(),
+                      maxLength: 20,
+                      obscureText: isObscured,
                       decoration: InputDecoration(
                         border: const OutlineInputBorder(
                           borderRadius:
@@ -240,9 +241,7 @@ class _SignUpPage extends State<SignUp> {
                         prefixIcon: const Icon(Icons.lock_outline),
                         hintText: 'Enter your password',
                         labelText: 'Password',
-                        errorText: isPFValid
-                            ? (errorPassword == '' ? null : errorPassword)
-                            : 'Value Can\'t Be Empty',
+                        errorText: errors['Password'],
                         suffixIcon: IconButton(
                           icon: isObscured
                               ? const Icon(Icons.visibility)
@@ -256,69 +255,30 @@ class _SignUpPage extends State<SignUp> {
                       ),
                     ),
                     const Padding(padding: EdgeInsets.all(10.0)),
+                    //retype password field
                     TextFormField(
-                      obscureText: true,
+                      keyboardType: TextInputType.visiblePassword,
                       controller: retypePasswordController,
-                      onChanged: (val) {
-                        setState(() {
-                          isPassword2Valid = passwordController.text ==
-                              retypePasswordController.text;
-                          error = '';
-                        });
-                        Future.delayed(const Duration(milliseconds: 1000), () {
-                          setState(() {
-                            val.isEmpty
-                                ? isPF2Valid = false
-                                : isPF2Valid = true;
-                            isPassword2Valid
-                                ? errorRetype = ''
-                                : errorRetype = 'Passwords don\'t match';
-                          });
-                        });
+                      onChanged: (value) {
+                        validateField(value, 'retypePass');
                       },
+                      validator: (value) {
+                        validateField(value ?? '', 'retypePass', delay: false);
+                        return errors['retypePass'];
+                      },
+                      obscureText: isObscured,
                       decoration: InputDecoration(
                         border: const OutlineInputBorder(
                           borderRadius:
                               BorderRadius.all(Radius.circular(100.0)),
                         ),
                         prefixIcon: const Icon(Icons.lock_outline),
-                        hintText: 'Repeat the password',
+                        hintText: 'Retype password',
                         labelText: 'Confirm Password',
-                        suffixIcon: IconButton(
-                          icon: isObscuredConfirm
-                              ? const Icon(Icons.visibility)
-                              : const Icon(Icons.visibility_off),
-                          onPressed: () {
-                            setState(() {
-                              isObscuredConfirm = !isObscuredConfirm;
-                            });
-                          },
-                        ),
-                        errorText: isPF2Valid
-                            ? (errorRetype == '' ? null : errorRetype)
-                            : 'Value Can\'t Be Empty',
+                        errorText: errors['retypePass'],
                       ),
                     ),
-                    SizedBox(height: height * .013),
-                    //error if you click without entering proper info
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
-                        Container(
-                          child: isEmailValid &&
-                                  isPasswordValid &&
-                                  isPassword2Valid &&
-                                  isFNFValid &&
-                                  isLNFValid &&
-                                  isPhoneValid
-                              ? Text(error)
-                              : Text(
-                                  error,
-                                  style: redTextFont(height),
-                                ),
-                        ),
-                      ],
-                    ),
+                    SizedBox(height: screenHeight * .013),
                     //sign up button
                     Center(
                       child: Container(
@@ -327,84 +287,46 @@ class _SignUpPage extends State<SignUp> {
                             ? SpinKitFadingCircle(
                                 color: mainColor,
                               )
-                            : TextButton(
-                                onPressed: isEmailValid &&
-                                        isPasswordValid &&
-                                        isPassword2Valid &&
-                                        isFNFValid &&
-                                        isLNFValid &&
-                                        isPhoneValid
-                                    ? () async {
-                                        setState(() {
-                                          isSigningUp = true;
-                                        });
+                            : ButtonMain(
+                                buttonText: "Sign Up ",
+                                onPress: () async {
+                                  if (_signupForm.currentState!.validate()) {
+                                    setState(() {
+                                      isSigningUp = true;
+                                    });
 
-                                        SignInSignUpResult? result =
-                                            await AuthServices.signUp(
-                                                emailController.text,
-                                                passwordController.text,
-                                                "${firsNameController.text}-${lastNameController.text}",
-                                                phoneController.text,
-                                                false);
+                                    SignInSignUpResult? result =
+                                        await FirebaseAuthServices.signUp(
+                                            email,
+                                            password,
+                                            "$firstName-$lastName",
+                                            phone,
+                                            false);
 
-                                        if (result?.exception == true || result?.user == null) {
-                                          setState(() {
-                                            isSigningUp = false;
-                                          });
+                                    if (result?.exception == true ||
+                                        result?.user == null) {
+                                      setState(() {
+                                        isSigningUp = false;
+                                      });
 
-                                          if (context.mounted) {
-                                            Flushbar(
-                                              duration:
-                                                  const Duration(seconds: 4),
-                                              flushbarPosition:
-                                                  FlushbarPosition.TOP,
-                                              backgroundColor:
-                                                  const Color(0xFFFF5c83),
-                                              message: result?.message,
-                                            ).show(context);
-                                          }
-                                        }
-                                        else{
-                                          Navigator.pop(context);}
+                                      if (context.mounted) {
+                                        Flushbar(
+                                          duration: const Duration(seconds: 4),
+                                          flushbarPosition:
+                                              FlushbarPosition.TOP,
+                                          backgroundColor:
+                                              const Color(0xFFFF5c83),
+                                          message: result?.message,
+                                        ).show(context);
                                       }
-                                    : () async {
-                                        setState(() {
-                                          error =
-                                              "Please enter valid information";
-                                        });
-                                      },
-                                style: TextButton.styleFrom(
-                                  padding: EdgeInsets.zero,
-                                ),
-                                child: SizedBox(
-                                  width: 144 * fem,
-                                  height: 57 * fem,
-                                  child: Container(
-                                    // frame4EaH (I134:15173;18:475)
-                                    width: double.infinity,
-                                    height: double.infinity,
-                                    decoration: BoxDecoration(
-                                      border: Border.all(
-                                          color: const Color(0xff707070)),
-                                      color: const Color(0xff9a2044),
-                                      borderRadius:
-                                          BorderRadius.circular(54 * fem),
-                                    ),
-                                    child: Center(
-                                      child: Text(
-                                        'Sign Up',
-                                        textAlign: TextAlign.center,
-                                        style: GoogleFonts.lato(
-                                          fontSize: 19.8325920105 * ffem,
-                                          fontWeight: FontWeight.w600,
-                                          height: 1.2575 * ffem / fem,
-                                          color: const Color(0xffffffff),
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ),
+                                    } else {
+                                      if (context.mounted)
+                                        Navigator.pop(context);
+                                    }
+                                  }
+                                },
+                                screenHeight: screenHeight,
+                                screenWidth: screenWidth),
                       ),
                     ),
                   ],
@@ -416,13 +338,15 @@ class _SignUpPage extends State<SignUp> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text('An Admin? ',
-                      textAlign: TextAlign.center, style: greyTextFont(height)),
+                      textAlign: TextAlign.center,
+                      style: greyTextFont(screenHeight)),
                   const Padding(padding: EdgeInsets.all(5.0)),
                   TextButton(
                     onPressed: () {
                       Navigator.pushReplacement(
                         context,
-                        MaterialPageRoute(builder: (context) => const AdminLogIn()),
+                        MaterialPageRoute(
+                            builder: (context) => const AdminLogIn()),
                       );
                     },
                     style: TextButton.styleFrom(
@@ -431,20 +355,19 @@ class _SignUpPage extends State<SignUp> {
                     child: Text(
                       ' Click here',
                       textAlign: TextAlign.center,
-                      style: greyTextFont(height).copyWith(color: mainColor),
+                      style:
+                          greyTextFont(screenHeight).copyWith(color: mainColor),
                     ),
                   ),
                 ],
               ),
             ),
             Container(
-              padding: EdgeInsets.all(height * 0.020),
+              padding: EdgeInsets.all(screenHeight * 0.020),
               decoration: BoxDecoration(
                   border: Border(
                 top: BorderSide(width: 1.0, color: accentColor2),
               )),
-              // padding: EdgeInsets.only(
-              //     top: height * 0.07),
               alignment: Alignment.bottomCenter,
               child: Column(
                 children: [
@@ -454,7 +377,7 @@ class _SignUpPage extends State<SignUp> {
                       Text(
                         'Have an account?',
                         style: GoogleFonts.lato(
-                          fontSize: 18 * ffem,
+                          fontSize: screenHeight * 0.022,
                           fontWeight: FontWeight.w700,
                           color: const Color(0xff000000),
                         ),
@@ -465,31 +388,30 @@ class _SignUpPage extends State<SignUp> {
                           Navigator.pushReplacement(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => const SignUp()),
+                                builder: (context) => const LogIn()),
                           );
                         },
                         style: TextButton.styleFrom(
                           padding: EdgeInsets.zero,
                         ),
                         child: SizedBox(
-                          width: 110 * fem,
-                          height: 50 * fem,
+                          width: screenWidth * 0.27,
+                          height: 50,
                           child: Container(
-                            // frame4EaH (I134:15173;18:475)
                             decoration: BoxDecoration(
                               border:
                                   Border.all(color: const Color(0xff9a2044)),
                               color: const Color(0xffffffff),
-                              borderRadius: BorderRadius.circular(54 * fem),
+                              borderRadius: BorderRadius.circular(54),
                             ),
                             child: Center(
                               child: Text(
                                 'Log in',
                                 textAlign: TextAlign.center,
                                 style: GoogleFonts.lato(
-                                  fontSize: 15 * ffem,
+                                  fontSize: screenHeight * 0.02,
                                   fontWeight: FontWeight.w400,
-                                  height: 1.2575 * ffem / fem,
+                                  height: 1.25,
                                   color: const Color(0xff000000),
                                 ),
                               ),

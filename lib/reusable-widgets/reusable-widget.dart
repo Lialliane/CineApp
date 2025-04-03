@@ -20,10 +20,56 @@ import '../cenima-app-user/help.dart';
 import '../main.dart';
 import '../services/auth.dart';
 import '../services/ticket.dart';
+import '../shared/Theme.dart';
+
+// ignore: must_be_immutable
+class ButtonMain extends StatelessWidget {
+  ButtonMain(
+      {super.key,
+      required this.buttonText,
+      this.onPress,
+      required this.screenHeight,
+      required this.screenWidth});
+
+  final String buttonText;
+  VoidCallback? onPress;
+  double screenWidth;
+  double screenHeight;
+
+  @override
+  Widget build(BuildContext context) {
+    return TextButton(
+      onPressed: onPress,
+      style: TextButton.styleFrom(
+        padding: EdgeInsets.zero,
+      ),
+      child: SizedBox(
+        width: screenWidth / 2.65,
+        height: 57,
+        child: Container(
+          width: double.infinity,
+          height: double.infinity,
+          decoration: BoxDecoration(
+            border: Border.all(color: const Color(0xff707070)),
+            color: const Color(0xff9a2044),
+            borderRadius: BorderRadius.circular(54),
+          ),
+          child: Center(
+            child: Text(
+              buttonText,
+              textAlign: TextAlign.center,
+              style: buttonTextFont(screenHeight),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
 
 //admin setting menu
 class ASettingDrawer extends StatelessWidget {
-  final AuthServices _auth = AuthServices();
+  final FirebaseAuthServices _auth = FirebaseAuthServices();
   ASettingDrawer({super.key});
 
   @override
@@ -86,7 +132,7 @@ class ASettingDrawer extends StatelessWidget {
               ],
             ),
             onTap: () async {
-              await AuthServices.signOut();
+              await FirebaseAuthServices.signOut();
             },
           ),
           ListTile(
@@ -191,7 +237,7 @@ class ASettingDrawer extends StatelessWidget {
               ],
             ),
             onTap: () async {
-              await AuthServices.signOut();
+              await FirebaseAuthServices.signOut();
               // ignore: use_build_context_synchronously
               Navigator.pushReplacement(
                 context,
@@ -209,7 +255,7 @@ class ASettingDrawer extends StatelessWidget {
 }
 
 class SettingDrawer extends StatelessWidget {
-  final AuthServices _auth = AuthServices();
+  final FirebaseAuthServices _auth = FirebaseAuthServices();
   SettingDrawer({super.key});
 
   @override
@@ -434,7 +480,7 @@ class SettingDrawer extends StatelessWidget {
               ],
             ),
             onTap: () async {
-              await AuthServices.signOut();
+              await FirebaseAuthServices.signOut();
               Navigator.pushReplacement(
                 context,
                 MaterialPageRoute(
@@ -488,62 +534,71 @@ Future<bool> showExitPopup(BuildContext context) async {
       ) ??
       false; //if showDialouge had returned null, then return false
 }
-Future<bool> showCancelPopup(BuildContext context,double width, double height) async {
+
+Future<bool> showCancelPopup(
+    BuildContext context, double width, double height) async {
   return await showDialog(
-    context: context,
-    builder: (context) => AlertDialog(
-      actionsAlignment: MainAxisAlignment.center,
-      title: Text('Cancel booking',textAlign: TextAlign.center),
-      content: Container(
-        decoration: BoxDecoration (
-          borderRadius: BorderRadius.circular(100),
-        ),
-        width: width*0.6,
-        height: height*0.1,
-        child: Column(
-          children: [
-            Text('Do you want to exit the booking screen?', textAlign: TextAlign.center),
-            Text('you will lose all the saved info!',textAlign: TextAlign.center ,style: TextStyle(
-              fontSize: 12,
-            )),
+        context: context,
+        builder: (context) => AlertDialog(
+          actionsAlignment: MainAxisAlignment.center,
+          title: Text('Cancel booking', textAlign: TextAlign.center),
+          content: Container(
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(100),
+            ),
+            width: width * 0.6,
+            height: height * 0.1,
+            child: Column(
+              children: [
+                Text('Do you want to exit the booking screen?',
+                    textAlign: TextAlign.center),
+                Text('you will lose all the saved info!',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontSize: 12,
+                    )),
+              ],
+            ),
+          ),
+          actions: [
+            Padding(
+              padding: const EdgeInsets.all(25.0),
+              child: ElevatedButton(
+                onPressed: () => Navigator.of(context).pop(false),
+                //return false when click on "NO"
+                child: Text('No'),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(25.0),
+              child: ElevatedButton(
+                onPressed: () => Navigator.of(context).pop(true),
+                //return true when click on "Yes"
+                child: Text('Yes'),
+              ),
+            ),
           ],
         ),
-      ),
-      actions: [
-        Padding(
-          padding: const EdgeInsets.all(25.0),
-          child: ElevatedButton(
-            onPressed: () => Navigator.of(context).pop(false),
-            //return false when click on "NO"
-            child: Text('No'),
-          ),
-        ),
-        Padding(
-          padding: const EdgeInsets.all(25.0),
-          child: ElevatedButton(
-            onPressed: () => Navigator.of(context).pop(true),
-            //return true when click on "Yes"
-            child: Text('Yes'),
-          ),
-        ),
-      ],
-    ),
-  ) ??
+      ) ??
       false; //if showDialouge had returned null, then return false
 }
-Future showBookedPopup(BuildContext context,double width, double height) async {
+
+Future showBookedPopup(
+    BuildContext context, double width, double height) async {
   return await showDialog(
     context: context,
     builder: (context) => AlertDialog(
       actionsAlignment: MainAxisAlignment.center,
-      title: Text('Booking Done',textAlign: TextAlign.center),
+      title: Text('Booking Done', textAlign: TextAlign.center),
       content: Container(
-        decoration: BoxDecoration (
+        decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(100),
         ),
-        width: width*0.6,
-        height: height*0.1,
-        child: Text('Check your ticket list on your profile page for you tickets', textAlign: TextAlign.center),
+        width: width * 0.6,
+        height: height * 0.1,
+        child: Text(
+            'Check your ticket list on your profile page for you tickets',
+            textAlign: TextAlign.center),
       ),
       actions: [
         Center(
@@ -560,19 +615,29 @@ Future showBookedPopup(BuildContext context,double width, double height) async {
     ),
   ); //if showDialouge had returned null, then return false
 }
-Future showBookedPopup1(BuildContext context,double width, double height,Ticket ticket,BookingDetails bookingDetails,Set selectedSeatsPre,Set selectedSeatsSta) async {
+
+Future showBookedPopup1(
+    BuildContext context,
+    double width,
+    double height,
+    Ticket ticket,
+    BookingDetails bookingDetails,
+    Set selectedSeatsPre,
+    Set selectedSeatsSta) async {
   return await showDialog(
     context: context,
     builder: (context) => AlertDialog(
       actionsAlignment: MainAxisAlignment.center,
-      title: Text('Booking Done',textAlign: TextAlign.center),
+      title: Text('Booking Done', textAlign: TextAlign.center),
       content: Container(
-        decoration: BoxDecoration (
+        decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(100),
         ),
-        width: width*0.6,
-        height: height*0.1,
-        child: Text('Check your ticket list on your profile page for you tickets', textAlign: TextAlign.center),
+        width: width * 0.6,
+        height: height * 0.1,
+        child: Text(
+            'Check your ticket list on your profile page for you tickets',
+            textAlign: TextAlign.center),
       ),
       actions: [
         Center(
@@ -582,8 +647,8 @@ Future showBookedPopup1(BuildContext context,double width, double height,Ticket 
               onPressed: () => Navigator.pushReplacement(
                 context,
                 MaterialPageRoute(
-                    builder: (context) =>
-                        CheckOut(bookingDetails,ticket, selectedSeatsSta, selectedSeatsSta)),
+                    builder: (context) => CheckOut(bookingDetails, ticket,
+                        selectedSeatsSta, selectedSeatsSta)),
               ),
               //return true when click on "Yes"
               child: Text('Ok'),
@@ -594,11 +659,6 @@ Future showBookedPopup1(BuildContext context,double width, double height,Ticket 
     ),
   ); //if showDialouge had returned null, then return false
 }
-
-
-
-
-
 
 void backNavigator(BuildContext context, Widget widget) {
   Navigator.of(context).pushReplacement(_createRouteL(widget));
@@ -768,7 +828,7 @@ class _UBottomNavigationBarHandlerState
               BottomNavigationBarItem(
                   label: 'Food Menu', icon: Icon(CineApp.popcorn)),
               BottomNavigationBarItem(
-                  label: 'Settings', icon: Icon(Icons.person))
+                  label: 'Profile', icon: Icon(Icons.person))
             ]));
   }
 
